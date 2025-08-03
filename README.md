@@ -3,6 +3,7 @@ This is a real-time chat application built with Python, Django, WebSockets, Djan
 It allows multiple users to send and receive messages in real time — similar to a group chat app.
 
 
+
 🚀 Features
 🔄 Real-time two-way messaging using WebSockets
 🔗 WebSocket handling with Django Channels
@@ -32,18 +33,18 @@ cd Realtime_ChatApp
 2. Create virtual environment & activate
 python -m venv venv
 venv\Scripts\activate  # For Windows
-# source venv/bin/activate  # For Mac/Linux
+source venv/bin/activate  # For Mac/Linux
 
 
-3. Install dependencies
+4. Install dependencies
 pip install -r requirements.txt
 
 
-4. Start Redis server (must be installed)
+5. Start Redis server (must be installed)
 redis-server
 
 
-5. Run migrations
+6. Run migrations
 python manage.py migrate
 
 
@@ -61,3 +62,4 @@ pillow==11.3.0
 
 
     
+
