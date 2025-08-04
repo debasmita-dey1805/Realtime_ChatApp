@@ -10,13 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+
+import dj_database_url
 from pathlib import Path
-from environ import Env
-env = Env()
-Env.read_env()
-ENVIRONMENT=env('ENVIRONMENT', default='production')
+import environ 
+env = environ.Env()
+environ.Env.read_env()
+
+ENVIRONMENT=env('ENVIRONMENT', default='development')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Project title displayed in the header
@@ -133,7 +137,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+import dj_database_url
 
+POSTGRES_LOCALLY = True
+if ENVIRONMENT == 'production':
+    DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
