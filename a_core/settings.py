@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+from environ import Env
+env = Env()
+Env.read_env()
+ENVIRONMENT=env('ENVIRONMENT', default='production')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,10 +24,13 @@ PROJECT_TITLE = "TalkNest"
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rj#-z^kx3j+1ay397otg6j8m_8#v^$^$jys6&41vy^&6le)ezc'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVIRONMENT == 'development':
+    DEBUG = True
+else:
+    DEBUG = False    
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
@@ -100,11 +106,23 @@ TEMPLATES = [
 #WSGI_APPLICATION = 'a_core.wsgi.application'
 ASGI_APPLICATION = 'a_core.asgi.application'
 
+# CHANNEL_LAYERS = {
+#     'default': {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer",
+#     }
+# }
 CHANNEL_LAYERS = {
-    'default': {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [
+                ("127.0.0.1",6379)
+            ],
+        },
+    },
 }
+
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
